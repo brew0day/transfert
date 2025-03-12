@@ -1,5 +1,11 @@
 {
-  "dependencies": {
-    "killbot.to": "^1.2.7"
-  }
+  "name": "mon-projet",
+  "version": "1.0.0",
+  "description": "Projet WeTransfer - Documents Sécurisés",
+  "main": "api/index.js",
+  "scripts": {
+    "start": "vercel dev"
+  },
+  "author": "",
+  "license": "ISC"
 }
